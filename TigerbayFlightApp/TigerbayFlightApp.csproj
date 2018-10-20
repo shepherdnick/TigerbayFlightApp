@@ -74,6 +74,7 @@
     <Content Include="Static\css\bootstrap-reboot.min.css" />
     <Content Include="Static\css\bootstrap.css" />
     <Content Include="Static\css\bootstrap.min.css" />
+    <Content Include="Static\images\logo.jpg" />
     <Content Include="Static\js\bootstrap.bundle.js" />
     <Content Include="Static\js\bootstrap.bundle.min.js" />
     <Content Include="Static\js\bootstrap.js" />

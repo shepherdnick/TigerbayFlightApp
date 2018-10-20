@@ -101,16 +101,17 @@ namespace TigerbayFlightApp
                 btnPreviousPage.Visible = false;
 
                 // Build up the message to display alternative destinations when no flights were found.
-                litFlightSearchResults.Text = "Sorry! There are no flights to this destination!";
-                litFlightSearchResults.Text += "<p>Why not try one of the following destinations instead?</p>";
-                litAlternativeDestinations.Text += String.Join(", ", existingDestinations);
+                litFlightSearchResults.Text = "<h2>Sorry, there are no flights to this destination!</h2><p>Why not try one of the following destinations instead?</p>";
+                lstAlternativeDestinations.DataSource = existingDestinations;
+                lstAlternativeDestinations.DataBind();
             }
 
             if (flightResults.links.Count > 0)
             {
                 // If we found some flights, get rid of any previous search results
                 litFlightSearchResults.Text = "";
-                litAlternativeDestinations.Text = "";
+                lstAlternativeDestinations.DataSource = null;
+                lstAlternativeDestinations.DataBind();
 
                 // Get the next page links set up
                 var nextPageLinks = flightResults.links.Where(x => x.rel.ToString().ToLower().Equals("nextpage")).FirstOrDefault();
@@ -167,7 +168,8 @@ namespace TigerbayFlightApp
 
             // Build a list from the existing destinations (once we've requested all of them) and update the search results
             var existingDestinations = DataCache.Instance.GetDestinations(sourceAirport);
-            litAlternativeDestinations.Text += String.Join(", ", existingDestinations);
+            lstAlternativeDestinations.DataSource = existingDestinations;
+            lstAlternativeDestinations.DataBind();
         }
 
         /// <summary>
