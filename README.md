@@ -12,6 +12,7 @@ To use:
 - I wrote my own REST Client to be able to communicate with the API.
 - I ran out of time to write any unit tests, but that was my intention.
 - You should not need any third party resources - I used bootstrap to style, but included all the relevant source files.
+- If required, Default.aspx should be set as the start page (right click on it in Solution Explorer and select "Set as Start Page" from the context menu.
 
 Architecture:
 -------------
