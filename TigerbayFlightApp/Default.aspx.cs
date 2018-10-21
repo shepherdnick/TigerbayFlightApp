@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using TigerbayFlightApp.Data;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -10,8 +9,6 @@ namespace TigerbayFlightApp
     public partial class Default : System.Web.UI.Page
     {
         private static string _baseURL = "http://tigerbaytest.azurewebsites.net/api/";
-        private static IRestClient _restClient = new RestClient();
-        private Dictionary<string, List<string>> _destinations = new Dictionary<string, List<string>>();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,10 +25,15 @@ namespace TigerbayFlightApp
         /// </summary>
         private void GetValidDestinationCodes()
         {
+            IRestClient restClient = new RestClient();
             var fullUrl = _baseURL + "GetValidDestinationCodes";
-            var sourceCodes = _restClient.Get<string[]>(fullUrl);
+            var sourceCodes = restClient.Get<string[]>(fullUrl);
 
-            ddlDestinationAirport.DataSource = sourceCodes;
+            var listItems = sourceCodes.Select(x => new ListItem(AirportNameTranslation.Instance.GetAirportName(x) + " (" + x + ")", x)).ToList();
+
+            ddlDestinationAirport.DataTextField = "Text";
+            ddlDestinationAirport.DataValueField = "Value";
+            ddlDestinationAirport.DataSource = listItems;
             ddlDestinationAirport.DataBind();
         }
 
@@ -40,10 +42,15 @@ namespace TigerbayFlightApp
         /// </summary>
         private void GetValidOriginCodes()
         {
+            IRestClient restClient = new RestClient();
             var fullUrl = _baseURL + "GetValidOriginCodes";
-            var destinationCodes = _restClient.Get<string[]>(fullUrl);
+            var destinationCodes = restClient.Get<string[]>(fullUrl);
+            
+            var listItems = destinationCodes.Select(x => new ListItem(AirportNameTranslation.Instance.GetAirportName(x) + " (" + x + ")", x)).ToList();
 
-            ddlSourceAirport.DataSource = destinationCodes;
+            ddlSourceAirport.DataTextField = "Text";
+            ddlSourceAirport.DataValueField = "Value";
+            ddlSourceAirport.DataSource = listItems;
             ddlSourceAirport.DataBind();
         }
 
@@ -81,8 +88,10 @@ namespace TigerbayFlightApp
         /// <param name="url">The API URL to use</param>
         private void GetAndDisplayFlightResults(string url)
         {
+            IRestClient restClient = new RestClient();
+
             // Get the flight results
-            var flightResults = _restClient.Get<FlightResults>(url);
+            var flightResults = restClient.Get<FlightResults>(url);
 
             if (flightResults.flights.Count == 0)
             {
@@ -101,6 +110,7 @@ namespace TigerbayFlightApp
                 btnPreviousPage.Visible = false;
 
                 // Build up the message to display alternative destinations when no flights were found.
+                pnlError.Visible = true;
                 litFlightSearchResults.Text = "<h2>Sorry, there are no flights to this destination!</h2><p>Why not try one of the following destinations instead?</p>";
                 lstAlternativeDestinations.DataSource = existingDestinations;
                 lstAlternativeDestinations.DataBind();
@@ -109,6 +119,7 @@ namespace TigerbayFlightApp
             if (flightResults.links.Count > 0)
             {
                 // If we found some flights, get rid of any previous search results
+                pnlError.Visible = false;
                 litFlightSearchResults.Text = "";
                 lstAlternativeDestinations.DataSource = null;
                 lstAlternativeDestinations.DataBind();
@@ -180,16 +191,18 @@ namespace TigerbayFlightApp
         /// <returns>The name of the destination airport if flights were found</returns>
         public async static Task<string> GetDestinationFor(string sourceAirport, string destinationAirport)
         {
+            IRestClient restClient = new RestClient();
+
             // Build the API URL
             var fullUrl = string.Format("{0}flights/{1}/{2}/{3}", _baseURL, sourceAirport, destinationAirport, 0);
 
             // Make the request
-            var flightResults = await Task.Run(() => _restClient.Get<FlightResults>(fullUrl));
+            var flightResults = await Task.Run(() => restClient.Get<FlightResults>(fullUrl));
 
             if (flightResults.flights.Count > 0)
             {
                 // If we found flights, it's a valid destination
-                return flightResults.flights.FirstOrDefault().outbound.destinationCode;
+                return AirportNameTranslation.Instance.GetAirportName(flightResults.flights.FirstOrDefault().outbound.destinationCode);
             }
 
             // Otherwise, we didn't find any flights so return empty string.

@@ -28,10 +28,10 @@
             </div>
             <div class="row top-buffer">
                 <div class="col-sm">
-                    Choose your starting location
+                    Choose your starting airport
                 </div>
                 <div class="col-sm">
-                    Choose your destination
+                    Choose your destination airport
                 </div>
                 <div class="col-sm">
                 </div>
@@ -119,7 +119,7 @@
             </div>
             <div class="row top-buffer">
                 <div class="col">
-                    <div class='alert alert-danger'>
+                    <asp:Panel runat="server" ID="pnlError" CssClass="alert alert-danger" Visible="false">
                         <asp:Literal runat="server" ID="litFlightSearchResults" />
                         <asp:ListView runat="server" ID="lstAlternativeDestinations" >
                             <ItemTemplate>
@@ -128,7 +128,7 @@
                                 </li>
                             </ItemTemplate>
                         </asp:ListView>
-                    </div>
+                    </asp:Panel>
                 </div>
             </div>
         </div>
