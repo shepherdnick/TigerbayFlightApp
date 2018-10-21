@@ -22,6 +22,7 @@ namespace TigerbayFlightApp
 
             // Add custom headers
             request.Headers.Add("Authorization", "Bearer 89EF8594E2EA6756BAC84D26D75F8");
+            request.Headers.Add("From", "shepherdnick at gmail.com");
 
             // Content type
             request.ContentType = "application/json";
