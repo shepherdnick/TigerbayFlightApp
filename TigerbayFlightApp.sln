@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerbayFlightApp", "TigerbayFlightApp\TigerbayFlightApp.csproj", "{0AAA0980-33FC-4D4B-92A3-4DA3585FC05D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerbayFlightApp.Tests", "TigerbayFlightApp.Tests\TigerbayFlightApp.Tests.csproj", "{B7BD1403-0A0E-403F-80D9-232C5FE0B2AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0AAA0980-33FC-4D4B-92A3-4DA3585FC05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AAA0980-33FC-4D4B-92A3-4DA3585FC05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AAA0980-33FC-4D4B-92A3-4DA3585FC05D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7BD1403-0A0E-403F-80D9-232C5FE0B2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BD1403-0A0E-403F-80D9-232C5FE0B2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BD1403-0A0E-403F-80D9-232C5FE0B2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BD1403-0A0E-403F-80D9-232C5FE0B2AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
